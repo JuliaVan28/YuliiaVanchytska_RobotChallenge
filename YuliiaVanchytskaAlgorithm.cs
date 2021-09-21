@@ -14,6 +14,7 @@ namespace YuliiaVanchytska.RobotChallenge
             get { return "Yuliia Vanchytska"; }
         }
         public int RoundCounter { get; set; }
+        const int AttackingRound = 30;
         public YuliiaVanchytskaAlgorithm()
         {
             Robot.Common.Logger.OnLogRound += Logger;
@@ -37,12 +38,35 @@ namespace YuliiaVanchytska.RobotChallenge
                     return new CreateNewRobotCommand();
                 }
 
-                Position stationPosition = Finder.FindNearestFreeStation(robots[robotToMoveIndex], map, robots);
-                if (stationPosition == null)
-                    return null;
+                
+                EnergyStation nearestStation = Finder.FindNearestFreeStation(robots[robotToMoveIndex], map, robots);
+                Position stationPosition = nearestStation.Position;
+                Position bestDistance = Finder.FindCurrentBestDistance(currentRobot, robots, stationPosition);
 
-                if (stationPosition == currentRobot.Position)
+                List<Robot.Common.Robot> enemies = Finder.FindEnemies(robots, Author);
+                Robot.Common.Robot bestEnemy = Finder.FindBestEnemyToAttack(enemies,currentRobot);
+                if (stationPosition == null)
+                {
+                    if (RoundCounter > AttackingRound )
+                    {
+                        if (bestEnemy != null)
+                        {
+                            if ((Checker.isAbleToAtack(bestEnemy, currentRobot, 25)))
+                            {
+                                if (Checker.IsAbleToMove(currentRobot, bestEnemy.Position, 1))
+                                    return new MoveCommand() { NewPosition = bestEnemy.Position };
+                            }
+                        }
+                    }
+                    return null;
+                }
+                   
+
+                 if ((stationPosition == currentRobot.Position) && nearestStation.Energy > 0)
                     return new CollectEnergyCommand();
+
+                if (bestDistance != null && !Checker.IsNearTheStation(currentRobot, map, robots))
+                    return new MoveCommand() { NewPosition = bestDistance };
 
                 return new MoveCommand() { NewPosition = stationPosition };
             }

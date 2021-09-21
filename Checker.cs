@@ -10,7 +10,7 @@ namespace YuliiaVanchytska.RobotChallenge
 {
     public class Checker
     {
-        /*public static bool IsCellFreeFromOthers(Position position, Robot.Common.Robot currentRobot, IList<Robot.Common.Robot> robots)
+        public static bool IsCellFreeFromOthers(Position position, Robot.Common.Robot currentRobot, IList<Robot.Common.Robot> robots)
         {
             foreach (var robot in robots)
             {
@@ -21,7 +21,7 @@ namespace YuliiaVanchytska.RobotChallenge
                 }
             }
             return true;
-        }*/
+        }
         public static bool isStationFree(Position stationPosition, Robot.Common.Robot currentRobot, IList<Robot.Common.Robot> robots)
         {
             IList<Robot.Common.Robot> others = new List<Robot.Common.Robot>();
@@ -37,6 +37,26 @@ namespace YuliiaVanchytska.RobotChallenge
                 return false;
             return true;
 
+        }
+
+        public static bool IsNearTheStation(Robot.Common.Robot robot, Map map, IList<Robot.Common.Robot> robots)
+        {
+            int posX = robot.Position.X;
+            int posY = robot.Position.Y;
+
+            for (int i = posX - 2; i <= posX + 2; i++)
+            {
+                for (int j = posY - 2; j <= posY + 2; j++)
+                {
+                    Position newPosition = new Position(i, j);
+                    var stationsList = map.Stations.Where(s => s.Position == newPosition);
+                    if (stationsList.Count() > 0 && !isStationFree(stationsList.First().Position, robot, robots))
+                    {
+                        return false;
+                    }
+                }
+            }
+            return true;
         }
 
         public static bool isAbleToAtack(Robot.Common.Robot enemy, Robot.Common.Robot currentRobot, int energy)
@@ -65,7 +85,7 @@ namespace YuliiaVanchytska.RobotChallenge
         public static bool IsAbleToMove(Robot.Common.Robot currentRobot, Position positionTo, int additionalEnergy)
         {
             int neededEnergy = DistanceHelper.FindDistance(currentRobot.Position, positionTo);
-            if ((currentRobot.Energy - neededEnergy) >= 10)
+            if ((currentRobot.Energy - neededEnergy) >= additionalEnergy)
                 return true;
             return false;
         }
