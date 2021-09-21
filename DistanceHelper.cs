@@ -4,7 +4,7 @@ using Robot.Common;
 
 namespace YuliiaVanchytska.RobotChallenge
 {
-    class DistanceHelper
+    public class DistanceHelper
     {
         
         public static int FindDistance(Position a, Position b)

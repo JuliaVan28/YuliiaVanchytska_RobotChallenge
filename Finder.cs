@@ -10,8 +10,6 @@ namespace YuliiaVanchytska.RobotChallenge
 {
     public class Finder
     {
-      
-
         public static EnergyStation FindNearestFreeStation(Robot.Common.Robot currentRobot, Map map,
 IList<Robot.Common.Robot> robots)
         {
@@ -29,26 +27,6 @@ IList<Robot.Common.Robot> robots)
                     }
                 }
             }
-
-
-            // maybe very USEFUL
-            /*if (nearest != null)
-            {
-                Position result = null;
-                List<Position> positions = CalculationHelper.CalculateCellsAroundStation(nearest.Position,
-               map);
-                int minDistanceAroundStation = int.MaxValue;
-                foreach (Position p in positions)
-                {
-                    int d = CalculationHelper.CalculateEnergyBetweenCells(p, currentRobot.Position);
-                    if (d < minDistanceAroundStation)
-                    {
-                        minDistanceAroundStation = d;
-                        result = p;
-                    }
-                }
-                return result;
-            }*/
             return nearest == null ? null : nearest;
         }
 
