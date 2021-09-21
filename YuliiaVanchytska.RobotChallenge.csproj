@@ -32,7 +32,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Robot.Common">
-      <HintPath>..\..\Tournament-20210907T062247Z-001\Tournament\Robot.Common.dll</HintPath>
+      <HintPath>D:\Polytech\Term 3.1\КПЗ\Tournament-20210907T062247Z-001\Tournament\Robot.Common.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

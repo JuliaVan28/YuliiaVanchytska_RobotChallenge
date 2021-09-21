@@ -50,7 +50,9 @@ IList<Robot.Common.Robot> robots)
                 return result;
             }*/
             return nearest == null ? null : nearest.Position;
-        }        public static List<Robot.Common.Robot> FindEnemies(IList<Robot.Common.Robot> robots, string
+        }
+
+        public static List<Robot.Common.Robot> FindEnemies(IList<Robot.Common.Robot> robots, string
 ownerName)
         {
             List<Robot.Common.Robot> enemies = new List<Robot.Common.Robot>();
@@ -73,7 +75,8 @@ ownerName)
                     return enemies[i];
             }
             return null;
-        }
+        }
+
 
 
 

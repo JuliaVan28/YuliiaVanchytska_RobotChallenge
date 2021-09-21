@@ -60,6 +60,16 @@ namespace YuliiaVanchytska.RobotChallenge
                 else
                     return 0;
             }
-        }
+        }
+
+        public static bool IsAbleToMove(Robot.Common.Robot currentRobot, Position positionTo, int additionalEnergy)
+        {
+            int neededEnergy = DistanceHelper.FindDistance(currentRobot.Position, positionTo);
+            if ((currentRobot.Energy - neededEnergy) >= 10)
+                return true;
+            return false;
+        }
+
+
     }
 }
