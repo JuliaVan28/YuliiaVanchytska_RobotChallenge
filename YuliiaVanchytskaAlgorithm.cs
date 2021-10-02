@@ -23,10 +23,12 @@ namespace YuliiaVanchytska.RobotChallenge
         {
             RoundCounter++;
         }
+        delegate bool delegateTest(Robot.Common.Robot enemy, Robot.Common.Robot currentRobot, int energy);
         public RobotCommand DoStep(IList<Robot.Common.Robot> robots, int robotToMoveIndex, Map map)
         {
             try
             {
+                delegateTest deleg;
                 var currentRobot = robots[robotToMoveIndex] ?? throw new ArgumentOutOfRangeException();
                 if (RoundCounter == 51 || currentRobot.Energy == 0)
                     return new CollectEnergyCommand();
@@ -45,13 +47,14 @@ namespace YuliiaVanchytska.RobotChallenge
 
                 List<Robot.Common.Robot> enemies = Finder.FindEnemies(robots, Author);
                 Robot.Common.Robot bestEnemy = Finder.FindBestEnemyToAttack(enemies,currentRobot);
+                deleg = Checker.isAbleToAtack;
                 if (stationPosition == null)
                 {
                     if (RoundCounter > AttackingRound )
                     {
                         if (bestEnemy != null)
                         {
-                            if ((Checker.isAbleToAtack(bestEnemy, currentRobot, 25)))
+                            if ((deleg(bestEnemy, currentRobot, 25)))
                             {
                                 if (Checker.IsAbleToMove(currentRobot, bestEnemy.Position, 1))
                                     return new MoveCommand() { NewPosition = bestEnemy.Position };
